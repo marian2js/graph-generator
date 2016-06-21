@@ -19,6 +19,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'client')));
 
+// livereload
+if (env === 'development') {
+  app.use(require('connect-livereload')({
+    port: 35729
+  }));
+}
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
