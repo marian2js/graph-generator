@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
+const mongoStorage = require('./storage/mongo.storage');
 
 const routes = require('./routes/index');
 
@@ -60,5 +61,9 @@ app.use((err, req, res) => {
   });
 });
 
+//db connection
+mongoStorage.connect()
+    .then(() => console.log('db connected successfully'))
+    .catch((err) => console.log('db connection failed', err));
 
 module.exports = app;
