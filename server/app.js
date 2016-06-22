@@ -18,7 +18,8 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'client')));
-
+app.use("/node_modules", express.static('node_modules'));
+app.use("/client", express.static('client'));
 // livereload
 if (env === 'development') {
   app.use(require('connect-livereload')({
