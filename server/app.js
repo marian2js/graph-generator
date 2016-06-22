@@ -4,7 +4,8 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoStorage = require('./storage/mongo.storage');
 
-const routes = require('./routes/index');
+const indexRoutes = require('./routes/index');
+const apiRoutes = require('./routes/api');
 
 const app = express();
 
@@ -28,7 +29,8 @@ if (env === 'development') {
   }));
 }
 
-app.use('/', routes);
+app.use('/', indexRoutes);
+app.use('/api', apiRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
