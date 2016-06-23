@@ -2,7 +2,7 @@ const mongodb = require('mongodb');
 const GraphProvider = require('./graph.provider');
 const mongoStorage = require('../storage/mongo.storage');
 const Node = require('../models/node.model');
-const Link = requiere('../models/link.model');
+const Link = require('../models/link.model');
 
 class GraphMongoProvider extends GraphProvider {
   getNodes() {
