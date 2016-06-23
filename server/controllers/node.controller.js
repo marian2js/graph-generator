@@ -41,7 +41,20 @@ class NodeController {
   }
 
   updateNode(req, res) {
-    // TODO
+    var node = new Node(req.body.name);
+    var data = req.body.data || {};
+    node.id = req.params.id;
+    for (let key in data) {
+      if (data.hasOwnProperty(key)) {
+        node.data[key] = data[key];
+      }
+    }
+    MongoProvider.updateNode(node)
+      .then(function() {
+        res.status(203).send();
+      }).catch(function(err) {
+        res.status(500).send({ error: err });
+      });
   }
 
   deleteNode(req, res) {
