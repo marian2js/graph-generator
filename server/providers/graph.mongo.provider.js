@@ -52,14 +52,16 @@ class GraphMongoProvider extends GraphProvider {
   }
 
   updateNode(node) {
+    var nodeId = new mongodb.ObjectID(node.id)
     var obj = {
       data: node.data
     };
-    return mongoStorage.db.nodes.update({_id: node.id}, obj);
+    return mongoStorage.db.nodes.update({_id: nodeId}, obj);
   }
 
   deleteNode(id) {
-    return mongoStorage.db.nodes.delete({_id: id});
+    var nodeId = new mongodb.ObjectID(id)
+    return mongoStorage.db.nodes.delete({_id: nodeId});
   }
 
   getLinks() {
@@ -110,16 +112,18 @@ class GraphMongoProvider extends GraphProvider {
   }
 
   updateLink(link) {
+    var linkId = new mongodb.ObjectID(link.id)
     var obj = {
       begin: link.begin,
       end: link.end,
       data: link.data
     };
-    return mongoStorage.db.links.update({_id: link.id}, obj);
+    return mongoStorage.db.links.update({_id: linkId}, obj);
   }
 
   deleteLink(id) {
-    return mongoStorage.db.link.delete({_id: id});
+    var linkId = new mongodb.ObjectID(id)
+    return mongoStorage.db.link.delete({_id: linkId});
   }
 }
 
