@@ -102,8 +102,8 @@ class GraphMongoProvider extends GraphProvider {
 
   createLink(link) {
     var obj = {
-      begin: link.begin,
-      end: link.end,
+      begin: new mongodb.ObjectID(link.begin),
+      end: new mongodb.ObjectID(link.end),
       data: link.data
     };
     return mongoStorage.db.links.insert(obj);
