@@ -1,8 +1,11 @@
+const nodecontroller = require('./node.controller');
 
 class MainController {
 
   index(req, res) {
-    res.render('index', { title: 'Graph Generator' });
+    //res.render('index', { title: 'Graph Generator' });
+
+    nodecontroller.getNodes(req, res);
   }
 
 }
