@@ -52,10 +52,12 @@ class GraphMongoProvider extends GraphProvider {
   }
 
   updateNode(node) {
+    var nodeId = new mongodb.ObjectID(node.id);
     var obj = {
+      name: node.name,
       data: node.data
     };
-    return mongoStorage.db.nodes.update({_id: node.id}, obj);
+    return mongoStorage.db.nodes.update({_id: nodeId}, obj);
   }
 
   deleteNode(id) {
