@@ -21,12 +21,11 @@ class NodeController {
   deleteNode(req, res) {
     var id = req.get('IdNode');
     provider.deleteNode(id)
-        .then(function (ok) {
-          if (ok)
-            res.statusCode(200).send();
+        .then(function () {
+          res.statusCode(200).send();
         }).catch(function (err) {
-      res.statusCode(500).send({ error: err })
-    });
+          res.statusCode(500).send({ error: err })
+        });
   }
 
 }
