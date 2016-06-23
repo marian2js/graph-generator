@@ -18,17 +18,17 @@
             </div>
 
             <div class="jumbotron">
-                <div id="graph">
-
-                </div>
-
+                <main ui-view></main>
             </div>
             <footer class="footer">
                 <p>Ingenier&iacute;a de Software 2016</p>
             </footer>
         </div>
         <script type="text/javascript" src="/node_modules/angular/angular.js"></script>
+        <script type="text/javascript" src="/node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
         <script type="text/javascript" src="/node_modules/vivagraphjs/dist/vivagraph.min.js"></script>
         <script src="/client/app.js"></script>
+        <script src="/client/services/graph.service.js"></script>
+        <script src="/client/controller.js"></script>
     </body>
 </html>

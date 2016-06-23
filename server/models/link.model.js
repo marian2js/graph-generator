@@ -9,4 +9,4 @@ class Link{
 
 }
 
-modules.exports = Link;
+module.exports = Link;
