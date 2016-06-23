@@ -12,7 +12,8 @@ class GraphMongoProvider extends GraphProvider {
             return reject(err);
           }
           nodes = nodes.map(nodeObj => {
-            let node = new Node();
+            let node = new Node(nodeObj.name);
+            node.id = nodeObj._id;
             for (let key in nodeObj.data) {
               if (nodeObj.data.hasOwnProperty(key)) {
                 node.data[key] = nodeObj.data[key];
@@ -30,7 +31,8 @@ class GraphMongoProvider extends GraphProvider {
     return mongoStorage.db.nodes
       .findOne({_id: objectId})
       .then(nodeObj => {
-        let node = new Node();
+        let node = new Node(nodeObj.name);
+        node.id = nodeObj._id;
         for (let key in nodeObj.data) {
           if (nodeObj.data.hasOwnProperty(key)) {
             node.data[key] = nodeObj.data[key];

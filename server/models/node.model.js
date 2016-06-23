@@ -1,7 +1,8 @@
 
 class Node {
 
-  constructor() {
+  constructor(name) {
+    this.name = name;
     this.data = {};
   }
 
