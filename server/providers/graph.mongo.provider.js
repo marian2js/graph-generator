@@ -44,6 +44,7 @@ class GraphMongoProvider extends GraphProvider {
 
   createNode(node) {
     var obj = {
+      name: node.name,
       data: node.data
     };
     return mongoStorage.db.nodes.insert(obj);
