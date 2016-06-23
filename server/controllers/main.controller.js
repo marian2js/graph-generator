@@ -1,4 +1,3 @@
-
 class MainController {
 
   index(req, res) {
