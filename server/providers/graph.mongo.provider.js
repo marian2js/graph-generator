@@ -2,6 +2,7 @@ const mongodb = require('mongodb');
 const GraphProvider = require('./graph.provider');
 const mongoStorage = require('../storage/mongo.storage');
 const Node = require('../models/node.model');
+const Link = requiere('../models/link.model');
 
 class GraphMongoProvider extends GraphProvider {
   getNodes() {
@@ -62,15 +63,47 @@ class GraphMongoProvider extends GraphProvider {
   }
 
   getLinks() {
-    return mongoStorage.db.links.find({});
+    return new Promise((resolve, reject) => {
+      mongoStorage.db.links.find({})
+        .toArray((err, links) => {
+          if (err) {
+            return reject(err);
+          }
+          links = links.map(linkObj => {
+            let link = new Link(linkObj.begin, linkObj.end);
+            link.id = linkObj._id;
+            for (let key in linkObj.data) {
+              if (linkObj.data.hasOwnProperty(key)) {
+                link.data[key] = linkObj.data[key];
+              }
+            }
+            return link;
+          });
+          resolve(links);
+        });
+    });
   }
 
   getLink(id) {
-    return mongoStorage.db.links.find({_id: id});
+    var objectId = new mongodb.ObjectID(id);
+    return mongoStorage.db.links
+      .findOne({_id: objectId})
+      .then(linkObj => {
+        let link = new Link(linkObj.begin, linkObj.end);
+        link.id = linkObj._id;
+        for (let key in linkObj.data) {
+          if (linkObj.data.hasOwnProperty(key)) {
+            link.data[key] = linkObj.data[key];
+          }
+        }
+        return link;
+      });
   }
 
   createLink(link) {
     var obj = {
+      begin: link.begin,
+      end: link.end,
       data: link.data
     };
     return mongoStorage.db.links.insert(obj);
@@ -78,7 +111,9 @@ class GraphMongoProvider extends GraphProvider {
 
   updateLink(link) {
     var obj = {
-      data: node.data
+      begin: link.begin,
+      end: link.end,
+      data: link.data
     };
     return mongoStorage.db.links.update({_id: link.id}, obj);
   }
