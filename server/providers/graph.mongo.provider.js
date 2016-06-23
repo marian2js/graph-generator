@@ -2,7 +2,7 @@ const mongodb = require('mongodb');
 const GraphProvider = require('./graph.provider');
 const mongoStorage = require('../storage/mongo.storage');
 const Node = require('../models/node.model');
-const Link = requiere('../models/link.model');
+const Link = require('../models/link.model');
 
 class GraphMongoProvider extends GraphProvider {
   getNodes() {
@@ -52,8 +52,9 @@ class GraphMongoProvider extends GraphProvider {
   }
 
   updateNode(node) {
-    var nodeId = new mongodb.ObjectID(node.id)
+    var nodeId = new mongodb.ObjectID(node.id);
     var obj = {
+      name: node.name,
       data: node.data
     };
     return mongoStorage.db.nodes.update({_id: nodeId}, obj);
