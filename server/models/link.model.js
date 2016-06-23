@@ -1,7 +1,7 @@
 
 class Link{
 
-  contructor(begin, end){
+  constructor(begin, end){
     this.begin = begin;
     this.end = end;
     this.data = {};
@@ -9,4 +9,4 @@ class Link{
 
 }
 
-modules.exports = Link;
+module.exports = Link;
