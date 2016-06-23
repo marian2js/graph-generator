@@ -47,7 +47,13 @@ class LinkController {
     }
 
     deleteLink(req, res) {
-        // TODO
+        var id = req.get('Idlink');
+        MongoProvider.deleteLink(id)
+            .then(function () {
+                res.statusCode(200).send();
+            }).catch(function (err) {
+            res.statusCode(500).send({ error: err })
+        });
     }
 
 }
