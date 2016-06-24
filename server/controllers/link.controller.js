@@ -44,7 +44,20 @@ class LinkController {
     }
 
     updateLink(req, res) {
-        // TODO
+        var link = new link(req.body.name);
+        var data = req.body.data || {};
+        link.id = req.params.id;
+        for (let key in data) {
+            if (data.hasOwnProperty(key)) {
+                link.data[key] = data[key];
+            }
+        }
+        MongoProvider.updateNode(node)
+            .then(function() {
+                res.status(203).send();
+            }).catch(function(err) {
+            res.status(500).send({ error: err });
+        });
     }
 
     deleteLink(req, res) {
