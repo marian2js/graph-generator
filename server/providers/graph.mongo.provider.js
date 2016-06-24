@@ -62,7 +62,7 @@ class GraphMongoProvider extends GraphProvider {
 
   deleteNode(id) {
     var nodeId = new mongodb.ObjectID(id)
-    return mongoStorage.db.nodes.delete({_id: nodeId});
+    return mongoStorage.db.nodes.remove({_id: nodeId});
   }
 
   getLinks() {
@@ -124,7 +124,7 @@ class GraphMongoProvider extends GraphProvider {
 
   deleteLink(id) {
     var linkId = new mongodb.ObjectID(id)
-    return mongoStorage.db.link.delete({_id: linkId});
+    return mongoStorage.db.links.remove({_id: linkId});
   }
 }
 

@@ -44,7 +44,7 @@ class LinkController {
     }
 
     updateLink(req, res) {
-        var link = new link(req.body.name);
+        var link = new Link(req.body.begin, req.body.end);
         var data = req.body.data || {};
         link.id = req.params.id;
         for (let key in data) {
@@ -52,22 +52,24 @@ class LinkController {
                 link.data[key] = data[key];
             }
         }
-        MongoProvider.updateNode(node)
+        provider.updateLink(link)
             .then(function() {
                 res.status(203).send();
             }).catch(function(err) {
-            res.status(500).send({ error: err });
-        });
+                console.error(err.stack);
+                res.status(500).send({ error: err });
+            });
     }
 
     deleteLink(req, res) {
-        var id = req.get('Idlink');
-        MongoProvider.deleteLink(id)
+        var id = req.params.id;
+        provider.deleteLink(id)
             .then(function () {
-                res.statusCode(200).send();
+                res.status(204).send();
             }).catch(function (err) {
-            res.statusCode(500).send({ error: err })
-        });
+                console.error(err.stack);
+                res.status(500).send({ error: err })
+            });
     }
 
 }
