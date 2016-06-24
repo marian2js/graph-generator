@@ -52,7 +52,7 @@
             document.getElementById('graph').innerHTML = '';
             var renderer = Viva.Graph.View.renderer(graph, {
                 container: document.getElementById('graph'),
-                layout : layout,
+                //layout : layout,
                 graphics: graphics,
                 container: document.getElementById('graph')
             });

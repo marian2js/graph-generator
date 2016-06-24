@@ -3,6 +3,7 @@
  */
 const provider = require('../providers/graph.mongo.provider');
 const Link = require('../models/link.model');
+const Graph = require('../models/graph.model')
 
 class LinkController {
 
