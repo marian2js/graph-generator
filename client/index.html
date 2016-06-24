@@ -1,5 +1,6 @@
 <button type="button" class="btn btn-success" ng-click="vm.openAddNodeModal()">Add Node</button>
 <button type="button" class="btn btn-success" ng-click="vm.openAddLinkModal()">Add Link</button>
+<button type="button" class="btn btn-primary" ng-click="vm.openImportModal()">Import Graph</button>
 
 <div class="jumbotron">
     <div id="graph">
@@ -109,6 +110,30 @@
   </div>
 </script>
 
+<script type="text/ng-template" id="importGraphModel.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Import Graph</h3>
+  </div>
+  <div class="modal-body">
+    <form name="importGraphForm">
+    <div class="row">
+        <div class="col-xs-12">
+            <label for="InputFile">File input</label>
+            <input type="file" fileread="importFile" id="InputFile">
+        </div>
+    </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary"
+            type="button"
+            ng-click="save()"
+            ng-disabled="importGraphForm.$invalid">Add</button>
+    <button class="btn btn-default"
+            type="button"
+            ng-click="cancel()">Cancel</button>
+  </div>
+</script>
 
 <script type="text/ng-template" id="nodeModel.html">
   <div class="modal-header">

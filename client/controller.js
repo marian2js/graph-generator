@@ -7,7 +7,16 @@
 
     function Controller(GraphService, $uibModal) {
         var vm = this;
-        var graph = Viva.Graph.graph();
+        var graphGenerator = Viva.Graph.generator();
+        var graph = graphGenerator.grid(1, 1);
+
+        var layout = Viva.Graph.Layout.forceDirected(graph, {
+            springLength : 10,
+            springCoeff : 0.0005,
+            dragCoeff : 0.02,
+            gravity : -0.5
+        });
+
         vm.nodes = null;
         vm.links = null;
 
@@ -42,6 +51,8 @@
             });
             document.getElementById('graph').innerHTML = '';
             var renderer = Viva.Graph.View.renderer(graph, {
+                container: document.getElementById('graph'),
+                layout : layout,
                 graphics: graphics,
                 container: document.getElementById('graph')
             });
@@ -56,6 +67,11 @@
         function addLink(link) {
           GraphService.links.create(link)
             .then(updateGraph);
+        }
+
+        function importGraph(file) {
+          GraphService.file.importFile(file)
+            .then(console.log('imported file ' + file));
         }
 
         vm.openAddNodeModal = function () {
@@ -83,6 +99,14 @@
             .then(addLink);
         };
 
+        vm.openImportModal = function () {
+          var modalInstance = $uibModal.open({
+            templateUrl: 'importGraphModel.html',
+            controller: 'ImportGraphCtrl'
+          });
+          modalInstance.result
+            .then(importGraph);
+        };
         function onNodeClick(node) {
           $uibModal.open({
             templateUrl: 'nodeModel.html',
@@ -166,6 +190,34 @@
 
       });
 
+      angular
+      .module('app')
+      .directive("fileread", [function () {
+          return {
+              scope: {
+                  fileread: "="
+              },
+              link: function (scope, element, attributes) {
+                  element.bind("change", function (changeEvent) {
+                      scope.$apply(function () {
+                          scope.fileread = changeEvent.target.files[0];
+                      });
+                  });
+              }
+          }
+      }])
+      .controller('ImportGraphCtrl', function ($scope, $uibModalInstance) {
+          $scope.importFile = null;
+          $scope.save = function () {
+              var file = $scope.importFile;
+              $uibModalInstance.close(file);
+          };
+
+          $scope.cancel = function () {
+              $uibModalInstance.dismiss('cancel');
+          };
+
+      });
   angular
     .module('app')
     .controller('NodeModalCtrl', function ($scope, $uibModalInstance, node) {
