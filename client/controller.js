@@ -7,8 +7,7 @@
 
     function Controller(GraphService, $uibModal) {
         var vm = this;
-        var graphGenerator = Viva.Graph.generator();
-        var graph = graphGenerator.grid(1, 1);
+        var graph = Viva.Graph.graph();
 
         vm.nodes = null;
         vm.links = null;
