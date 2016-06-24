@@ -4,16 +4,18 @@
     angular
         .module('app')
         .factory('GraphService', function($http, $q){
-            var nodesService = new Service('nodes', $http, $q);
-            var linksService = new Service('links', $http, $q);
+            var nodesService = new GraphService('nodes', $http, $q);
+            var linksService = new GraphService('links', $http, $q);
+            var fileService = new ImportService($http, $q);
             var graph = {
                 nodes: nodesService,
-                links: linksService
+                links: linksService,
+                file: fileService
             }
             return graph;
         });
 
-    function Service(apiName, $http, $q) {
+    function GraphService(apiName, $http, $q) {
         var self = this;
         this.apiName = apiName;
         this.getAll = getAll;
@@ -51,6 +53,25 @@
         function handleError(res) {
             return $q.reject(res.data);
         }
+    }
+
+    function ImportService($http, $q) {
+      var self = this;
+      this.importFile = importFile;
+
+      function importFile(file) {
+            return $http.post('/api/import', file).then(handleSuccess, handleError);
+        }
+
+      // private functions
+
+      function handleSuccess(res) {
+          return res.data;
+      }
+
+      function handleError(res) {
+          return $q.reject(res.data);
+      }
     }
 
 })();
