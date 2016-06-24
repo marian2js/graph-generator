@@ -6,7 +6,7 @@
         .factory('GraphService', function($http, $q){
             var nodesService = new GraphService('nodes', $http, $q);
             var linksService = new GraphService('links', $http, $q);
-            var fileService = new ImportService($http, $q);
+            var fileService = new FileService($http, $q);
             var graph = {
                 nodes: nodesService,
                 links: linksService,
@@ -55,13 +55,17 @@
         }
     }
 
-    function ImportService($http, $q) {
+    function FileService($http, $q) {
       var self = this;
       this.importFile = importFile;
 
       function importFile(file) {
-            return $http.post('/api/import', file).then(handleSuccess, handleError);
-        }
+          return $http.post('/api/file', file).then(handleSuccess, handleError);
+      }
+
+      function exportFile(file) {
+          return $http.get('/api/file').then(handleSuccess, handleError);
+      }
 
       // private functions
 
