@@ -35,7 +35,8 @@
               var ui = Viva.Graph
                 .svg('rect')
                 .attr('width', 24)
-                .attr('height', 24);
+                .attr('height', 24)
+                .attr('fill', '#00A2E8');
               ui.addEventListener('click', function () {
                 onNodeClick(node.data);
               });
