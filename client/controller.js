@@ -30,10 +30,21 @@
         }
 
         function drawGraph(data) {
+            var graphics = Viva.Graph.View.svgGraphics();
+            graphics.node(function(node) {
+              var ui = Viva.Graph
+                .svg('rect')
+                .attr('width', 24)
+                .attr('height', 24);
+              ui.addEventListener('click', function () {
+                onNodeClick(node.data);
+              });
+              return ui;
+            });
             vm.nodes = data[0];
             vm.links = data[1];
             vm.nodes.forEach(function(node) {
-                graph.addNode(node.id);
+                graph.addNode(node.id, node);
             });
             vm.links.forEach(function(link) {
                 graph.addLink(link.begin, link.end);
@@ -41,7 +52,9 @@
             document.getElementById('graph').innerHTML = '';
             var renderer = Viva.Graph.View.renderer(graph, {
                 container: document.getElementById('graph'),
-                layout : layout
+                layout : layout,
+                graphics: graphics,
+                container: document.getElementById('graph')
             });
             renderer.run();
         }
@@ -94,6 +107,18 @@
           modalInstance.result
             .then(importGraph);
         };
+        function onNodeClick(node) {
+          $uibModal.open({
+            templateUrl: 'nodeModel.html',
+            controller: 'NodeModalCtrl',
+            resolve: {
+              node: function () {
+                return node;
+              }
+            }
+          });
+        }
+
         updateGraph();
     }
 
@@ -193,4 +218,14 @@
           };
 
       });
+  angular
+    .module('app')
+    .controller('NodeModalCtrl', function ($scope, $uibModalInstance, node) {
+      $scope.node = node;
+
+      $scope.close = function () {
+        $uibModalInstance.dismiss('cancel');
+      };
+
+  });
 })();
