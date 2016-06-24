@@ -67,7 +67,7 @@
 
         function importGraph(file) {
           GraphService.file.importFile(file)
-            .then(console.log('imported file ' + file));
+            .then(updateGraph);
         }
 
         vm.openAddNodeModal = function () {
