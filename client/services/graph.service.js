@@ -14,38 +14,32 @@
         });
 
     function Service(apiName, $http, $q) {
-        var service = {};
-        service.apiName = apiName;
-        service.getAll = getAll;
-        service.getById = getById;
-        service.create = create;
-        service.update = update;
-        service.delete = Delete;
-
-        return service;
-        // set the api name that will be requested ('nodes' or 'links')
-        function setApiName(apiName) {
-            this.apiName = apiName;
-        }
+        var self = this;
+        this.apiName = apiName;
+        this.getAll = getAll;
+        this.getById = getById;
+        this.create = create;
+        this.update = update;
+        this.delete = Delete;
 
         function getAll() {
-            return $http.get('/api/' + this.apiName).then(handleSuccess, handleError);
+            return $http.get('/api/' + self.apiName).then(handleSuccess, handleError);
         }
 
         function getById(_id) {
-            return $http.get('/api/' + this.apiName  + '/' + _id).then(handleSuccess, handleError);
+            return $http.get('/api/' + self.apiName  + '/' + _id).then(handleSuccess, handleError);
         }
 
         function create(data) {
-            return $http.post('/api/' + this.apiName  + '/', data).then(handleSuccess, handleError);
+            return $http.post('/api/' + self.apiName  + '/', data).then(handleSuccess, handleError);
         }
 
         function update(data) {
-            return $http.put('/api/' + this.apiName  + '/' + data._id, data).then(handleSuccess, handleError);
+            return $http.put('/api/' + self.apiName  + '/' + data._id, data).then(handleSuccess, handleError);
         }
 
         function Delete(_id) {
-            return $http.delete('/api/' + this.apiName  + '/' + _id).then(handleSuccess, handleError);
+            return $http.delete('/api/' + self.apiName  + '/' + _id).then(handleSuccess, handleError);
         }
 
         // private functions
