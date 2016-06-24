@@ -20,3 +20,7 @@ svg {
 #graph-generator svg {
     overflow: visible;
 }
+.bg-info {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
