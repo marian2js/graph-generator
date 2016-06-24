@@ -17,6 +17,7 @@
     "font-awesome": "^4.6.3",
     "mongodb": "^2.1.18",
     "morgan": "~1.7.0",
+    "uuid": "^2.0.2",
     "vivagraphjs": "^0.8.1"
   },
   "devDependencies": {

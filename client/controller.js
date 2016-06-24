@@ -11,10 +11,10 @@
         var graph = graphGenerator.grid(1, 1);
 
         var layout = Viva.Graph.Layout.forceDirected(graph, {
-            springLength : 10,
-            springCoeff : 0.0005,
-            dragCoeff : 0.02,
-            gravity : -0.5
+              springLength : 10,
+              springCoeff : 0.0005,
+              dragCoeff : 0.02,
+              gravity : -0.5
         });
 
         vm.nodes = null;
@@ -53,8 +53,7 @@
             var renderer = Viva.Graph.View.renderer(graph, {
                 container: document.getElementById('graph'),
                 layout : layout,
-                graphics: graphics,
-                container: document.getElementById('graph')
+                graphics: graphics
             });
             renderer.run();
         }
