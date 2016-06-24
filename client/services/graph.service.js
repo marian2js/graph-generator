@@ -29,7 +29,7 @@
         }
 
         function getById(_id) {
-            return $http.get('/api/' + self.apiName  + '/' + _id).then(handleSuccess, handleError);
+            return $http.get('/api/' + self.apiName  + '/' + id).then(handleSuccess, handleError);
         }
 
         function create(data) {
@@ -37,11 +37,11 @@
         }
 
         function update(data) {
-            return $http.put('/api/' + self.apiName  + '/' + data._id, data).then(handleSuccess, handleError);
+            return $http.put('/api/' + self.apiName  + '/' + data.id, data).then(handleSuccess, handleError);
         }
 
         function Delete(_id) {
-            return $http.delete('/api/' + self.apiName  + '/' + _id).then(handleSuccess, handleError);
+            return $http.delete('/api/' + self.apiName  + '/' + id).then(handleSuccess, handleError);
         }
 
         // private functions
