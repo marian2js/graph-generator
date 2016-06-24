@@ -3,11 +3,19 @@
 
     angular
         .module('app')
-        .factory('GraphService', Service);
+        .factory('GraphService', function($http, $q){
+            var nodesService = new Service('nodes', $http, $q);
+            var linksService = new Service('links', $http, $q);
+            var graph = {
+                nodes: nodesService,
+                links: linksService
+            }
+            return graph;
+        });
 
-    function Service($http, $q) {
+    function Service(apiName, $http, $q) {
         var service = {};
-        service.setApiName = setApiName;
+        service.apiName = apiName;
         service.getAll = getAll;
         service.getById = getById;
         service.create = create;

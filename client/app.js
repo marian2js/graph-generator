@@ -1,4 +1,3 @@
-var graph = Viva.Graph.graph();
  // TODO
 (function () {
     'use strict';
