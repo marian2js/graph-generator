@@ -11,10 +11,10 @@
         var graph = graphGenerator.grid(1, 1);
 
         var layout = Viva.Graph.Layout.forceDirected(graph, {
-            springLength : 10,
+            springLength : 120,
             springCoeff : 0.0005,
             dragCoeff : 0.02,
-            gravity : -0.5
+            gravity : -0.2
         });
 
         vm.nodes = null;
