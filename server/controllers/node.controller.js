@@ -58,12 +58,13 @@ class NodeController {
   }
 
   deleteNode(req, res) {
-    var id = req.get('IdNode');
+    var id = req.params.id;
     MongoProvider.deleteNode(id)
         .then(function () {
-          res.statusCode(200).send();
+          res.status(204).send();
         }).catch(function (err) {
-          res.statusCode(500).send({ error: err })
+          console.error(err.stack);
+          res.status(500).send({ error: err })
         });
   }
 

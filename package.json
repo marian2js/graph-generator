@@ -15,8 +15,10 @@
     "ejs": "~2.4.1",
     "express": "~4.13.4",
     "font-awesome": "^4.6.3",
+    "fs": "0.0.2",
     "mongodb": "^2.1.18",
     "morgan": "~1.7.0",
+    "multer": "^1.1.0",
     "vivagraphjs": "^0.8.1"
   },
   "devDependencies": {

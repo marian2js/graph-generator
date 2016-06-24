@@ -43,11 +43,14 @@ class GraphMongoProvider extends GraphProvider {
       });
   }
 
-  createNode(node) {
+  createNode(node, id) {
     var obj = {
       name: node.name,
       data: node.data
     };
+    if (id) {
+      obj._id = id;
+    }
     return mongoStorage.db.nodes.insert(obj);
   }
 
@@ -108,12 +111,15 @@ class GraphMongoProvider extends GraphProvider {
       });
   }
 
-  createLink(link) {
+  createLink(link, id) {
     var obj = {
       begin: new mongodb.ObjectID(link.begin),
       end: new mongodb.ObjectID(link.end),
       data: link.data
     };
+    if (id) {
+      obj._id = id;
+    }
     return mongoStorage.db.links.insert(obj);
   }
 
