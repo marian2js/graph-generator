@@ -108,6 +108,14 @@
           modalInstance.result
             .then(importGraph);
         };
+
+        vm.openExportModal = function () {
+          GraphService.file.exportFile()
+            .then(function(file){
+              return file;
+            });
+        };
+
         function onNodeClick(node) {
           $uibModal.open({
             templateUrl: 'nodeModel.html',
