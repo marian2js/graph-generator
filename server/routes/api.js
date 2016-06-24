@@ -17,6 +17,6 @@ router.put('/links/:id', linkController.updateLink);
 router.delete('/links/:id', linkController.deleteLink);
 
 router.get('/file', graphController.export);
-router.post('/file', graphController.import);
+router.post('/file', graphController.importGraph);
 
 module.exports = router;
