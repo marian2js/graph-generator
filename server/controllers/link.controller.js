@@ -34,13 +34,26 @@ class LinkController {
                 link.data[key] = data[key];
             }
         }
-        provider.createLink(link)
-            .then(function() {
-                res.status(203).send();
-            }).catch(function(err) {
+        var nodesPromise = provider.getNodes();
+        var linksPromise = provider.getLinks();
+        Promise.all([
+            nodesPromise,
+            linksPromise
+        ]).then(data => {
+            var nodes = data[0];
+            var links = data[1];
+            var graph = new Graph(nodes, links);
+            if(graph.existCycle(link)) {
+                return res.status(400).send({ error: 'Graph must be acyclic' });
+            }
+            provider.createLink(link)
+                .then(function() {
+                    res.status(203).send();
+                }).catch(function(err) {
                 console.error(err.stack);
                 res.status(500).send('Link creation unsuccessful');
             });
+        });
     }
 
     updateLink(req, res) {
