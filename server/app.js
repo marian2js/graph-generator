@@ -3,6 +3,7 @@ const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const mongoStorage = require('./storage/mongo.storage');
+const multer = require('multer');
 
 const indexRoutes = require('./routes/index');
 const apiRoutes = require('./routes/api');
@@ -62,6 +63,8 @@ app.use((err, req, res) => {
     error: {}
   });
 });
+
+app.use(multer({dest:'../tmp/'}).single('singleInputFileName'));
 
 //db connection
 mongoStorage.connect()

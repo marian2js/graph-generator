@@ -43,10 +43,6 @@ class LinkController {
         ]).then(data => {
             var nodes = data[0];
             var links = data[1];
-            var graph = new Graph(nodes, links);
-            if(graph.existCycle(link)) {
-                return res.status(400).send({ error: 'Graph must be acyclic' });
-            }
             provider.createLink(link)
                 .then(function() {
                     res.status(203).send();

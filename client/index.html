@@ -1,15 +1,16 @@
 <button type="button" class="btn btn-success" ng-click="vm.openAddNodeModal()">Add Node</button>
 <button type="button" class="btn btn-success" ng-click="vm.openAddLinkModal()">Add Link</button>
 <button type="button" class="btn btn-primary" ng-click="vm.openImportModal()">Import Graph</button>
-
+<button type="button" class="btn btn-primary" ng-click="vm.openExportModal()">Export Graph</button>
+<div class="bg-info"><p>Click on nodes to edit or delete them!</p></div>
 <div class="jumbotron">
     <div id="graph">
     </div>
 </div>
 
-<script type="text/ng-template" id="addNodeModel.html">
+<script type="text/ng-template" id="formNodeModel.html">
   <div class="modal-header">
-    <h3 class="modal-title">Add Model</h3>
+    <h3 class="modal-title">{{ editing ? 'Edit Model' : 'Add Model' }}</h3>
   </div>
   <div class="modal-body">
     <form name="addNodeForm">
@@ -49,7 +50,9 @@
     <button class="btn btn-primary"
             type="button"
             ng-click="save()"
-            ng-disabled="addNodeForm.$invalid">Add</button>
+            ng-disabled="addNodeForm.$invalid">
+      {{ editing ? 'Edit' : 'Add' }}
+    </button>
     <button class="btn btn-default"
             type="button"
             ng-click="cancel()">Cancel</button>
@@ -147,6 +150,9 @@
     </ul>
   </div>
   <div class="modal-footer">
+    <button class="btn btn-primary"
+            type="button"
+            ng-click="edit()">Edit</button>
     <button class="btn btn-default"
             type="button"
             ng-click="close()">Close</button>

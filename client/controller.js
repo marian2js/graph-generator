@@ -7,15 +7,7 @@
 
     function Controller(GraphService, $uibModal) {
         var vm = this;
-        var graphGenerator = Viva.Graph.generator();
-        var graph = graphGenerator.grid(1, 1);
-
-        var layout = Viva.Graph.Layout.forceDirected(graph, {
-            springLength : 10,
-            springCoeff : 0.0005,
-            dragCoeff : 0.02,
-            gravity : -0.5
-        });
+        var graph = Viva.Graph.graph();
 
         vm.nodes = null;
         vm.links = null;
@@ -35,7 +27,8 @@
               var ui = Viva.Graph
                 .svg('rect')
                 .attr('width', 24)
-                .attr('height', 24);
+                .attr('height', 24)
+                .attr('fill', '#00A2E8');
               ui.addEventListener('click', function () {
                 onNodeClick(node.data);
               });
@@ -52,9 +45,7 @@
             document.getElementById('graph').innerHTML = '';
             var renderer = Viva.Graph.View.renderer(graph, {
                 container: document.getElementById('graph'),
-                //layout : layout,
-                graphics: graphics,
-                container: document.getElementById('graph')
+                graphics: graphics
             });
             renderer.run();
         }
@@ -64,6 +55,11 @@
             .then(updateGraph);
         }
 
+      function editNode(node) {
+        GraphService.nodes.update(node)
+          .then(updateGraph);
+      }
+
         function addLink(link) {
           GraphService.links.create(link)
             .then(updateGraph);
@@ -71,13 +67,18 @@
 
         function importGraph(file) {
           GraphService.file.importFile(file)
-            .then(console.log('imported file ' + file));
+            .then(updateGraph);
         }
 
         vm.openAddNodeModal = function () {
           var modalInstance = $uibModal.open({
-            templateUrl: 'addNodeModel.html',
-            controller: 'AddNodeModalCtrl'
+            templateUrl: 'formNodeModel.html',
+            controller: 'FormNodeModalCtrl',
+            resolve: {
+              node: function () {
+                return false;
+              }
+            }
           });
 
           modalInstance.result
@@ -107,6 +108,14 @@
           modalInstance.result
             .then(importGraph);
         };
+
+        vm.openExportModal = function () {
+          GraphService.file.exportFile()
+            .then(function(file){
+              return file;
+            });
+        };
+
         function onNodeClick(node) {
           $uibModal.open({
             templateUrl: 'nodeModel.html',
@@ -114,6 +123,9 @@
             resolve: {
               node: function () {
                 return node;
+              },
+              editNode: function () {
+                return editNode;
               }
             }
           });
@@ -124,10 +136,24 @@
 
     angular
       .module('app')
-      .controller('AddNodeModalCtrl', function ($scope, $uibModalInstance) {
+      .controller('FormNodeModalCtrl', function ($scope, $uibModalInstance, node) {
           $scope.node = {
               attrs: []
           };
+
+          // Edit nodes
+          $scope.editing = !!node;
+          if ($scope.editing) {
+              $scope.node.name = node.name;
+              for (var key in node.data) {
+                if (node.data.hasOwnProperty(key)) {
+                  $scope.node.attrs.push({
+                    key: key,
+                    value: node.data[key]
+                  });
+                }
+              }
+          }
 
           $scope.addAttr = function () {
               $scope.node.attrs.push({
@@ -137,16 +163,19 @@
           };
 
           $scope.save = function () {
-              var node = {
+              var newNode = {
                 name: $scope.node.name.trim(),
                 data: {}
               };
+              if(node && node.id) {
+                newNode.id = node.id;
+              }
               $scope.node.attrs.forEach(function (attr) {
                 if(attr.key && attr.value) {
-                  node.data[attr.key] = attr.value.trim();
+                  newNode.data[attr.key] = attr.value.trim();
                 }
               });
-              $uibModalInstance.close(node);
+              $uibModalInstance.close(newNode, $scope.editing);
           };
 
           $scope.cancel = function () {
@@ -218,14 +247,29 @@
           };
 
       });
-  angular
-    .module('app')
-    .controller('NodeModalCtrl', function ($scope, $uibModalInstance, node) {
-      $scope.node = node;
 
-      $scope.close = function () {
-        $uibModalInstance.dismiss('cancel');
-      };
+    angular
+      .module('app')
+      .controller('NodeModalCtrl', function ($scope, $uibModalInstance, $uibModal, node, editNode) {
+        $scope.node = node;
 
-  });
+        $scope.edit = function () {
+          $uibModalInstance.dismiss('cancel');
+          var modalInstance = $uibModal.open({
+            templateUrl: 'formNodeModel.html',
+            controller: 'FormNodeModalCtrl',
+            resolve: {
+              node: node
+            }
+          });
+
+          modalInstance.result
+            .then(editNode);
+        };
+
+        $scope.close = function () {
+          $uibModalInstance.dismiss('cancel');
+        };
+
+    });
 })();
