@@ -1,4 +1,52 @@
-<p>Nodes {{vm.nodes}}</p>
-<p>Links {{vm.links}}</p>
+<button type="button" class="btn btn-success" ng-click="vm.openAddNodeModal()">Add Node</button>
 <div id="graph">
 </div>
+
+<script type="text/ng-template" id="addNodeModel.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Add Model</h3>
+  </div>
+  <div class="modal-body">
+    <form name="addNodeForm">
+      <div class="form-group">
+        <label for="node_name">Node Name</label>
+        <input type="text"
+               ng-model="node.name"
+               class="form-control"
+               id="node_name"
+               placeholder="Node Name"
+               required>
+      </div>
+      <a href="#" ng-click="addAttr()">
+        <i class="fa fa-plus" aria-hidden="true"></i> Add Attribute
+      </a>
+      <div class="form-group" ng-repeat="attr in node.attrs">
+        <div class="row">
+          <div class="col-xs-6">
+            <input type="text"
+                   ng-model="node.attrs[$index].key"
+                   class="form-control"
+                   id="attr_key_{{ $index }}"
+                   placeholder="Attribute Key">
+          </div>
+          <div class="col-xs-6">
+            <input type="text"
+                   ng-model="node.attrs[$index].value"
+                   class="form-control"
+                   id="attr_value_{{ $index }}"
+                   placeholder="Attribute Value">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary"
+            type="button"
+            ng-click="save()"
+            ng-disabled="addNodeForm.$invalid">Add</button>
+    <button class="btn btn-default"
+            type="button"
+            ng-click="cancel()">Cancel</button>
+  </div>
+</script>
