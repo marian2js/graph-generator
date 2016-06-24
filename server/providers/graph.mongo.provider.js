@@ -62,7 +62,12 @@ class GraphMongoProvider extends GraphProvider {
 
   deleteNode(id) {
     var nodeId = new mongodb.ObjectID(id)
-    return mongoStorage.db.nodes.delete({_id: nodeId});
+    return mongoStorage.db.nodes.remove({_id: nodeId})
+      .then(function () {
+        return mongoStorage.db.links.remove({
+          $or: [{begin: nodeId}, {end: nodeId}]
+        })
+      })
   }
 
   getLinks() {
