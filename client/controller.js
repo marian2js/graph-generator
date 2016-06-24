@@ -41,6 +41,11 @@
             .then(updateGraph);
         }
 
+        function addLink(link) {
+          GraphService.links.create(link)
+            .then(updateGraph);
+        }
+
         vm.openAddNodeModal = function () {
           var modalInstance = $uibModal.open({
             templateUrl: 'addNodeModel.html',
@@ -49,6 +54,21 @@
 
           modalInstance.result
             .then(addNode);
+        };
+
+        vm.openAddLinkModal = function () {
+          var modalInstance = $uibModal.open({
+            templateUrl: 'addLinkModel.html',
+            controller: 'AddLinkModalCtrl',
+            resolve: {
+                nodes: function(){
+                    return vm.nodes;
+                }
+            }
+          });
+
+          modalInstance.result
+            .then(addLink);
         };
 
         updateGraph();
@@ -79,6 +99,41 @@
                 }
               });
               $uibModalInstance.close(node);
+          };
+
+          $scope.cancel = function () {
+              $uibModalInstance.dismiss('cancel');
+          };
+
+      });
+
+      angular
+      .module('app')
+      .controller('AddLinkModalCtrl', function ($scope, $uibModalInstance, nodes) {
+          $scope.link = {
+              attrs: []
+          };
+          $scope.nodes = nodes;
+
+          $scope.addAttr = function () {
+              $scope.link.attrs.push({
+                  key: "",
+                  value: ""
+              });
+          };
+
+          $scope.save = function () {
+              var link = {
+                begin: $scope.link.begin,
+                end: $scope.link.end,
+                data: {}
+              };
+              $scope.link.attrs.forEach(function (attr) {
+                if(attr.key && attr.value) {
+                  link.data[attr.key] = attr.value.trim();
+                }
+              });
+              $uibModalInstance.close(link);
           };
 
           $scope.cancel = function () {

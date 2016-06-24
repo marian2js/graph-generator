@@ -1,5 +1,9 @@
 <button type="button" class="btn btn-success" ng-click="vm.openAddNodeModal()">Add Node</button>
-<div id="graph">
+<button type="button" class="btn btn-success" ng-click="vm.openAddLinkModal()">Add Link</button>
+
+<div class="jumbotron">
+    <div id="graph">
+    </div>
 </div>
 
 <script type="text/ng-template" id="addNodeModel.html">
@@ -45,6 +49,60 @@
             type="button"
             ng-click="save()"
             ng-disabled="addNodeForm.$invalid">Add</button>
+    <button class="btn btn-default"
+            type="button"
+            ng-click="cancel()">Cancel</button>
+  </div>
+</script>
+
+
+<script type="text/ng-template" id="addLinkModel.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Add Link</h3>
+  </div>
+  <div class="modal-body">
+    <form name="addLinkForm">
+    <div class="row">
+          <div class="col-xs-6">
+            <select name="link_begin" id="link_begin" ng-model="link.begin" class="form-control">
+                <option ng-repeat="node in nodes" value="{{node.id}}">{{node.name}}</option>
+            </select>
+          </div>
+          <div class="col-xs-6">
+            <select name="link_end" id="link_end" ng-model="link.end" class="form-control">
+                <option ng-repeat="node in nodes" value="{{node.id}}">{{node.name}}</option>
+            </select>
+          </div>
+    </div>
+      <a href="#" ng-click="addAttr()">
+        <i class="fa fa-plus" aria-hidden="true"></i> Add Attribute
+      </a>
+
+      <div class="form-group" ng-repeat="attr in link.attrs">
+        <div class="row">
+          <div class="col-xs-6">
+            <input type="text"
+                   ng-model="link.attrs[$index].key"
+                   class="form-control"
+                   id="attr_key_{{ $index }}"
+                   placeholder="Attribute Key">
+          </div>
+          <div class="col-xs-6">
+            <input type="text"
+                   ng-model="link.attrs[$index].value"
+                   class="form-control"
+                   id="attr_value_{{ $index }}"
+                   placeholder="Attribute Value">
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary"
+            type="button"
+            ng-click="save()"
+            ng-disabled="addLinkForm.$invalid">Add</button>
     <button class="btn btn-default"
             type="button"
             ng-click="cancel()">Cancel</button>
