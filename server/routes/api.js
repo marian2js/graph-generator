@@ -4,7 +4,6 @@ const nodeController = require('../controllers/node.controller');
 const linkController = require('../controllers/link.controller');
 const graphController = require('../controllers/graph.controller');
 
-
 router.get('/nodes', nodeController.getNodes);
 router.get('/nodes/:id', nodeController.getNode);
 router.post('/nodes', nodeController.createNode);
