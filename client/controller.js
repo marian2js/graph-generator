@@ -53,8 +53,7 @@
             var renderer = Viva.Graph.View.renderer(graph, {
                 container: document.getElementById('graph'),
                 layout : layout,
-                graphics: graphics,
-                container: document.getElementById('graph')
+                graphics: graphics
             });
             renderer.run();
         }
